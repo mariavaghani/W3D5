@@ -22,21 +22,28 @@ class KnightPathFinder
     [x + 1, y - 2],
     [x - 1, y - 2]
     ]
-    valid_moves_arr.select! { |move| move.all? { |ele| ele.between?(0,7) } }
+    valid_moves_arr.select { |move| move.all? { |ele| ele.between?(0,7) } }
     
   end
 
-
+  def new_move_positions(pos)
+    KnightPathFinder.valid_moves(pos).reject { |moves| @considered_positions.include?(moves)}
+  end
 
   def build_move_tree
+    new_moves_arr = self.new_move_positions(@root_node.value)
     
+
+
+
   end
+
 end
 
 
 if __FILE__ == $PROGRAM_NAME
   kpf = KnightPathFinder.new([0, 0])
-  p KnightPathFinder.valid_moves([0,0])
-  p KnightPathFinder.valid_moves([3,5])
+#   p KnightPathFinder.valid_moves([0,0])
+  p kpf.new_move_positions([0,0])
 
 end

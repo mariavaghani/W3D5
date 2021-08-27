@@ -32,10 +32,20 @@ class KnightPathFinder
 
   def build_move_tree
     new_moves_arr = self.new_move_positions(@root_node.value)
-    
+
+    # queue = [self]
+    # until queue.empty?
+    #   node = queue.shift
+    #   return node if node.value == target_value
+    #   node.children.each { |child| queue << child } 
+    # end
+
+    until new_moves_arr.empty?
+      node = new_moves_arr.shift
+      new_moves_arr.each { |move| node.add_child(PolyTreeNode.new(move)) }
 
 
-
+    end
   end
 
 end
@@ -44,6 +54,10 @@ end
 if __FILE__ == $PROGRAM_NAME
   kpf = KnightPathFinder.new([0, 0])
 #   p KnightPathFinder.valid_moves([0,0])
-  p kpf.new_move_positions([0,0])
+  p kpf
+  # p kpf.new_move_positions([0,0])
+
+  kpf.build_move_tree
+  p kpf
 
 end

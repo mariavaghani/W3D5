@@ -44,16 +44,20 @@ class KnightPathFinder
       node.children.each { |child| queue << child }
     end
 
-
-# queue = [self]
-    # until queue.empty?
-    #   node = queue.shift
-    #   return node if node.value == target_value
-    #   node.children.each { |child| queue << child } 
-    # end
-
-    
   end
+
+
+  def find_path(end_pos)
+    @root_node.dfs(end_pos)
+  end
+
+  # def trace_path_back(node)
+  #   path = []
+  #   until node.parent
+  #     path += node.parent
+  #     node = node.parent
+  #   end
+  # end
 
 end
 
@@ -65,6 +69,9 @@ if __FILE__ == $PROGRAM_NAME
   # p kpf.new_move_positions([0,0])
 
   kpf.build_move_tree
-  p kpf.root_node.children[0].children[0]
+  # p kpf.root_node.children[0].children[0]
+
+  p kpf.find_path([7, 6]) # => [[0, 0], [1, 2], [2, 4], [3, 6], [5, 5], [7, 6]]
+  p kpf.find_path([6, 2]) # => [[0, 0], [1, 2], [2, 0], [4, 1], [6, 2]]
 
 end

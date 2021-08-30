@@ -18,11 +18,43 @@ class TicTacToeNode
   end
 
 
-  def losing_node?(evaluator)
-    # return true if @board.winner != evaluator
-    return true if @children.none? { |child_node| child_node.board.winner == evaluator}
-    
+  def losing_node?(evaluator) #evaluator == you
+    return true if board.winner == next_mover_mark
+    return false if board.winner == evaluator
+    if evaluator != next_mover_mark
+      return children.all? do |child_node| 
+        child_node.children.any? do |nested_node|
+          nested_node.losing_node?(nested_node.next_mover_mark)
+        end 
+      end
+    else
+      children.any? do |child_node| 
+        child_node.losing_node?
+    end
   end
+
+    # return true if @board.winner != evaluator
+    # return true if @children.none? { |child_node| child_node.board.winner == evaluator}
+    # return true if board.winner != evaluator && board.won?
+    # if evaluator != next_mover_mark
+    #   return true if @children.all? do |child_node| 
+    #     child_node.children.any? do |nested_child_node|
+    #       nested_child_node.board.winner == next_mover_mark 
+    #     end
+    #   end
+    # # else
+    # #   return false if @children.all? do |child_node| 
+    # #     child_node.children.any? do |nested_child_node|
+    # #       nested_child_node.board.winner != next_mover_mark 
+    # #     end
+    #   # end
+    # end  
+
+    # false
+
+    # if evaluator == next_mover_mark
+    #   return false if @children.all? { |child_node| child_node.board.winner == evaluator}
+    # end
 
   def winning_node?(evaluator)
   end

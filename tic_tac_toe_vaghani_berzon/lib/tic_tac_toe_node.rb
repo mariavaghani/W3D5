@@ -1,7 +1,7 @@
 require_relative 'tic_tac_toe'
 
 class TicTacToeNode
-  attr_reader :board, :next_mover_mark, :next_mover_pos
+  attr_reader :board, :next_mover_mark, :prev_move_pos
   def initialize(board, next_mover_mark, prev_move_pos = nil)
     @board = board
     @next_mover_mark = next_mover_mark
@@ -10,8 +10,18 @@ class TicTacToeNode
     
   end
 
+  def inspect
+    { board: @board, 
+      children: @children.map(&:board)
+    }.inspect
+     # calls it on a hash
+  end
+
 
   def losing_node?(evaluator)
+    # return true if @board.winner != evaluator
+    return true if @children.none? { |child_node| child_node.board.winner == evaluator}
+    
   end
 
   def winning_node?(evaluator)
@@ -28,7 +38,7 @@ class TicTacToeNode
           copy = board.dup
           copy[[row_idx, col_idx]] = next_mover_mark
           next_next_mover_mark = next_mover_mark == :x ? :o : :x
-          children << TicTacToeNode.new(copy, next_next_mover_mark, prev_move_pos = [row_idx, col_idx] )
+          @children << TicTacToeNode.new(copy, next_next_mover_mark, prev_move_pos = [row_idx, col_idx] )
         end
       end 
     end

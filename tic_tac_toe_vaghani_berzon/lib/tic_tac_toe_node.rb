@@ -19,17 +19,26 @@ class TicTacToeNode
 
 
   def losing_node?(evaluator) #evaluator == you
-    return true if board.winner == next_mover_mark
-    return false if board.winner == evaluator
+    # p evaluator
+    return true if board.over? && board.winner == next_mover_mark
+    return false if board.over? && board.winner == evaluator
+    return false if board.over? && board.tied?
+
     if evaluator != next_mover_mark
+      # recursive case when it is our turn
       return children.all? do |child_node| 
+        p child_node.board
         child_node.children.any? do |nested_node|
-          nested_node.losing_node?(nested_node.next_mover_mark)
+          nested_node.losing_node?(evaluator)
         end 
       end
     else
-      children.any? do |child_node| 
-        child_node.losing_node?
+      # It is the opponent's turn, and one of the children nodes is a losing node
+      #  for the player
+      return children.none? do |child_node| 
+        # p child_node.board
+        child_node.losing_node?(next_mover_mark)
+      end
     end
   end
 
@@ -81,8 +90,37 @@ end
 
 
 if __FILE__ == $PROGRAM_NAME
-  b = Board.new
-  test = TicTacToeNode.new(b, :x, nil)
-  p test.children
+  # b = Board.new
+  # test = TicTacToeNode.new(b, :x, nil)
+  # p test.children
+  node = TicTacToeNode.new(Board.new, :x)
+  node.board[[0, 0]] = :o
+  node.board[[2, 2]] = :o
+  node.board[[0, 2]] = :o
+  p node.losing_node?(:x) # => true
+  # p node.losing_node?(:o)  # => false
 
+
+
+  # opponent = TicTacToeNode.new(Board.new, :o)
+  # opponent.board[[0, 0]] = :x
+  # opponent.board[[0, 1]] = :x
+  # opponent.board[[0, 2]] = :o
+  # opponent.board[[1, 1]] = :o
+  # opponent.board[[1, 0]] = :x
+  # p opponent.losing_node?(:x) # => true
+
+
+  # cats_los = TicTacToeNode.new(Board.new, :o)
+  # cats_los.board[[0, 0]] = :x
+  # cats_los.board[[0, 1]] = :o
+  # cats_los.board[[0, 2]] = :x
+  # cats_los.board[[1, 0]] = :o
+  # cats_los.board[[1, 1]] = :x
+  # cats_los.board[[1, 2]] = :o
+  # cats_los.board[[2, 0]] = :o
+  # cats_los.board[[2, 1]] = :x
+  # p cats_los.losing_node?(:o) # => false
+
+  
 end

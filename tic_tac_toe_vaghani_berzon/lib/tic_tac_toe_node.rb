@@ -48,7 +48,6 @@ require "byebug"
   # This method generates an array of all moves that can be made after
   # the current move.
   def children
-    # children = []
     
     board.rows.each_with_index do |row, row_idx|
       row.each_with_index do |ele, col_idx|
@@ -102,41 +101,4 @@ if __FILE__ == $PROGRAM_NAME
   
 end
 
-   # recursive case when it is our turn
-      # return children.all? do |child_node| 
-      #   p child_node.board
-      #   child_node.children.any? do |nested_node|
-      #     nested_node.losing_node?(evaluator)
-      #   end 
-    # else
-      # It is the opponent's turn, and one of the children nodes is a losing node
-    #   #  for the player
-    #   return children.none? do |child_node| 
-    #     # p child_node.board
-    #     child_node.losing_node?(next_mover_mark)
-    #   end
-    # end
-  
 
-    # return true if @board.winner != evaluator
-    # return true if @children.none? { |child_node| child_node.board.winner == evaluator}
-    # return true if board.winner != evaluator && board.won?
-    # if evaluator != next_mover_mark
-    #   return true if @children.all? do |child_node| 
-    #     child_node.children.any? do |nested_child_node|
-    #       nested_child_node.board.winner == next_mover_mark 
-    #     end
-    #   end
-    # # else
-    # #   return false if @children.all? do |child_node| 
-    # #     child_node.children.any? do |nested_child_node|
-    # #       nested_child_node.board.winner != next_mover_mark 
-    # #     end
-    #   # end
-    # end  
-
-    # false
-
-    # if evaluator == next_mover_mark
-    #   return false if @children.all? { |child_node| child_node.board.winner == evaluator}
-    # end

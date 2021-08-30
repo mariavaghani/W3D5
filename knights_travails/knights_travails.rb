@@ -48,16 +48,18 @@ class KnightPathFinder
 
 
   def find_path(end_pos)
-    @root_node.dfs(end_pos)
+    target_node = @root_node.dfs(end_pos)
+    trace_path_back(target_node)
   end
 
-  # def trace_path_back(node)
-  #   path = []
-  #   until node.parent
-  #     path += node.parent
-  #     node = node.parent
-  #   end
-  # end
+  def trace_path_back(node)
+    path = [node.value]
+    while node.parent
+      path << node.parent.value
+      node = node.parent
+    end
+    path.reverse
+  end
 
 end
 
@@ -73,5 +75,6 @@ if __FILE__ == $PROGRAM_NAME
 
   p kpf.find_path([7, 6]) # => [[0, 0], [1, 2], [2, 4], [3, 6], [5, 5], [7, 6]]
   p kpf.find_path([6, 2]) # => [[0, 0], [1, 2], [2, 0], [4, 1], [6, 2]]
+  # p kpf
 
 end
